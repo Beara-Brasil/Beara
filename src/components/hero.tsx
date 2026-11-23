@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState, type PointerEvent, type TouchEvent } from "react";
 import { SLIDES, abrirProduto } from "@/content/site";
-import { HeroBear3D, type Ponteiro } from "./hero-bear-3d";
+import { HeroBear } from "./hero-bear";
+import type { Ponteiro } from "./hero-bear-3d";
 
 function useReducedMotion() {
   const [reduz, setReduz] = useState(false);
@@ -21,7 +22,6 @@ export function Hero() {
   const [pausado, setPausado] = useState(false);
   const reduz = useReducedMotion();
   const ponteiro = useRef<Ponteiro>({ x: 0, y: 0, tx: 0, ty: 0 });
-  const chao = useRef<HTMLDivElement>(null);
   const toque = useRef<{ x: number; y: number } | null>(null);
   const slide = SLIDES[atual];
   const autoplay = !reduz;
@@ -74,17 +74,22 @@ export function Hero() {
     >
       {/* chao em grade com perspectiva */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[55%] [perspective:600px]" aria-hidden>
-        <div
-          ref={chao}
-          className="absolute -inset-x-1/2 -bottom-[10%] h-[140%] origin-bottom [transform:rotateX(68deg)]"
+        <div className="absolute -inset-x-1/2 -bottom-[10%] h-[140%] origin-bottom overflow-hidden [transform:rotateX(68deg)]"
           style={{
-            backgroundImage:
-              "linear-gradient(rgba(34,211,238,.22) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,.22) 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
             WebkitMaskImage: "linear-gradient(to top, #000 10%, transparent 85%)",
             maskImage: "linear-gradient(to top, #000 10%, transparent 85%)",
           }}
-        />
+        >
+          {/* a grade anda por transform: a placa de video move, nada e repintado */}
+          <div
+            className="urso-chao absolute inset-x-0 -top-16 bottom-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(34,211,238,.22) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,.22) 1px, transparent 1px)",
+              backgroundSize: "64px 64px",
+            }}
+          />
+        </div>
       </div>
       {/* brilho radial atras do urso */}
       <div
@@ -120,7 +125,7 @@ export function Hero() {
 
         <div className="relative flex min-h-[300px] items-center justify-center sm:min-h-[360px]">
           <div className="w-[min(100%,340px)] sm:w-full sm:max-w-[520px]">
-            <HeroBear3D ponteiro={ponteiro} chao={chao} />
+            <HeroBear ponteiro={ponteiro} />
           </div>
           {/* painel de status do slide */}
           <div

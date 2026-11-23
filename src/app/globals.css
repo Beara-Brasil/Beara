@@ -86,3 +86,33 @@ body {
   }
   .js [data-reveal] { opacity: 1; transform: none; }
 }
+
+/* urso leve e chao do hero: so transform/translate, sem repintura */
+@keyframes urso-chao { to { transform: translate3d(0, 64px, 0); } }
+@keyframes urso-flutuar {
+  0%, 100% { transform: perspective(1400px) rotateX(12deg) rotateY(-18deg) translate3d(0, 0, 0); }
+  50% { transform: perspective(1400px) rotateX(8deg) rotateY(-8deg) translate3d(0, -10px, 0); }
+}
+@keyframes urso-respirar {
+  0%, 15%, 100% { translate: 0 0; }
+  55% { translate: var(--dx) var(--dy); }
+}
+@keyframes urso-abrir {
+  0%, 100% { translate: 0 0; }
+  35% { translate: calc(var(--dx) * 3) calc(var(--dy) * 3); }
+}
+@keyframes urso-piscar {
+  0%, 94%, 100% { transform: scaleY(1); }
+  97% { transform: scaleY(0.1); }
+}
+@keyframes urso-cubo {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -18px, 0) rotate(90deg); }
+}
+.urso-chao { animation: urso-chao 2.67s linear infinite; will-change: transform; }
+[data-urso="0"] .urso-chao { animation-play-state: paused; }
+.urso-flutuar { animation: urso-flutuar 7s ease-in-out infinite; will-change: transform; }
+.urso-respirar { animation: urso-respirar 4.5s ease-in-out infinite; }
+.urso-abrir { animation: urso-abrir 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+.urso-piscar { animation: urso-piscar 3.8s linear infinite; }
+.urso-cubo { animation: urso-cubo 5s ease-in-out infinite; }
