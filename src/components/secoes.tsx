@@ -61,7 +61,7 @@ export function Sobre() {
           </div>
           <p className="m-0 self-end text-lg leading-relaxed text-mist lg:text-xl">
             Construímos sites, apps, APIs e automações para a sua operação — e cuidamos deles depois da entrega. Os produtos Beara nasceram desse
-            trabalho: soluções prontas para delivery, campo e escola.
+            trabalho, a começar pelo Beara Delivery.
           </p>
         </div>
 

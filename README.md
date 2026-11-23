@@ -1,7 +1,7 @@
 # Beara — site institucional
 
-Site da Beara (software house e consultoria) com os produtos Beara Delivery,
-Beara Agro e Beara School. Feito a partir do design `Beara_Site` (Claude Design).
+Site da Beara (software house e consultoria) com os produtos Beara Delivery
+e Beara Entregas (em breve). Feito a partir do design `Beara_Site` (Claude Design).
 
 ## Stack
 
@@ -54,4 +54,4 @@ src/
 - Parceiros, Carreiras, Conteúdos, Blog, Privacidade e Termos ainda não têm
   página — aparecem como texto, sem link.
 - A prévia do Beara Delivery (`public/produtos/beara-delivery.png`) ainda
-  mostra a marca antiga "Bear Delivery". Agro e School não têm prévia.
+  mostra a marca antiga "Bear Delivery". O Beara Entregas aparece só como "em breve".

@@ -155,7 +155,7 @@ export function Hero() {
         onPointerEnter={(e) => e.pointerType === "mouse" && setPausado(true)}
         onPointerLeave={(e) => e.pointerType === "mouse" && setPausado(false)}
       >
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${SLIDES.length}, minmax(0, 1fr))` }}>
           {SLIDES.map((s, i) => {
             const ativo = i === atual;
             return (

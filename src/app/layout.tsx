@@ -9,7 +9,7 @@ const jetbrains = JetBrains_Mono({ subsets: ["latin", "latin-ext"], weight: ["40
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://beara.com.br";
 const descricao =
-  "Software house e consultoria: sites, apps, APIs e automações para a sua operação. Conheça o Beara Delivery, o Beara Agro e o Beara School.";
+  "Software house e consultoria: sites, apps, APIs e automações para a sua operação. Conheça o Beara Delivery. Em breve, o Beara Entregas.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

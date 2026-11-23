@@ -54,36 +54,6 @@ export const SLIDES: Slide[] = [
       { k: "tempo médio", v: "32 min" },
     ],
   },
-  {
-    label: "Beara Agro",
-    tag: ">_ BEARA AGRO",
-    titulo: "Gestão do campo sem planilha.",
-    texto:
-      "Safra, insumos e rotinas da propriedade em um só sistema, integrado ao seu ERP.",
-    cta: "Conhecer o Beara Agro",
-    produto: 1,
-    linhas: [
-      { k: "talhão 07", v: "plantio registrado" },
-      { k: "insumos", v: "em estoque" },
-      { k: "relatório", v: "automático" },
-      { k: "sync campo", v: "ok" },
-    ],
-  },
-  {
-    label: "Beara School",
-    tag: ">_ BEARA SCHOOL",
-    titulo: "A escola inteira em uma plataforma.",
-    texto:
-      "Secretaria, notas, financeiro e comunicação com as famílias, no computador e no celular.",
-    cta: "Conhecer o Beara School",
-    produto: 2,
-    linhas: [
-      { k: "matrículas", v: "abertas" },
-      { k: "boletim", v: "publicado" },
-      { k: "mensalidades", v: "em dia" },
-      { k: "aviso aos pais", v: "enviado" },
-    ],
-  },
 ];
 
 export type Produto = {
@@ -94,9 +64,11 @@ export type Produto = {
   img?: string;
   tag: string;
   resumo: string;
-  titulo: string;
-  texto: string;
-  itens: string[];
+  // produto ainda sem lancamento: mostra so nome + "em breve"
+  emBreve?: boolean;
+  titulo?: string;
+  texto?: string;
+  itens?: string[];
 };
 
 export const PRODUTOS: Produto[] = [
@@ -118,34 +90,12 @@ export const PRODUTOS: Produto[] = [
     ],
   },
   {
-    slug: "agro",
-    nome: "Beara Agro",
-    url: "beara.agro",
-    tag: "AGRONEGÓCIO",
-    resumo: "Gestão e automação para o campo.",
-    titulo: "Dados do campo em um só lugar.",
-    texto:
-      "Controle de produção, estoque de insumos e rotinas da propriedade, com integração ao seu ERP.",
-    itens: [
-      "Controle de safra, talhões e insumos",
-      "Automação de rotinas e relatórios",
-      "Acesso no campo, mesmo offline",
-    ],
-  },
-  {
-    slug: "school",
-    nome: "Beara School",
-    url: "beara.school",
-    tag: "EDUCAÇÃO",
-    resumo: "Gestão escolar e comunicação com famílias.",
-    titulo: "A escola inteira conectada.",
-    texto:
-      "Matrículas, notas, frequência, financeiro e comunicação com pais e alunos em uma plataforma.",
-    itens: [
-      "Secretaria, notas e frequência",
-      "Financeiro e mensalidades",
-      "App para pais e alunos",
-    ],
+    slug: "entregas",
+    nome: "Beara Entregas",
+    url: "beara.com.br",
+    tag: "ENTREGAS",
+    resumo: "Em breve.",
+    emBreve: true,
   },
 ];
 
@@ -176,7 +126,7 @@ export const ETAPAS = [
 
 export const STACK = ["React", "Node.js", "TypeScript", "Python", "PostgreSQL", "AWS", "Docker", "React Native", "MongoDB", "Firebase"];
 
-export const INTERESSES = ["Beara Delivery", "Beara Agro", "Beara School", "Projeto sob medida"];
+export const INTERESSES = ["Beara Delivery", "Beara Entregas", "Projeto sob medida"];
 
 export const UTILITARIOS = {
   esquerda: ["Para empresas", "Parceiros", "Carreiras", "Conteúdos"],

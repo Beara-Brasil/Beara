@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Beara",
     short_name: "Beara",
-    description: "Software house e consultoria. Beara Delivery, Agro e School.",
+    description: "Software house e consultoria. Beara Delivery e Beara Entregas.",
     start_url: "/",
     display: "standalone",
     background_color: "#F3F5F8",

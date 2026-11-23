@@ -86,34 +86,45 @@ export function Produtos() {
       >
         <div key={p.slug} className="flex flex-col justify-center gap-5">
           <span className="animate-rise font-mono text-[13px] text-muted">{p.tag}</span>
-          <h3 className="animate-rise m-0 font-display text-[clamp(28px,3.5vw,44px)] leading-[1.02] font-extrabold tracking-[-.03em] [animation-delay:60ms]">
-            {p.titulo}
-          </h3>
-          <p className="animate-rise m-0 max-w-[52ch] text-[17px] leading-[1.55] text-slate sm:text-lg [animation-delay:120ms]">{p.texto}</p>
-          <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
-            {p.itens.map((item, i) => (
-              <li key={item} className="animate-rise flex items-baseline gap-3 text-base" style={{ animationDelay: `${180 + i * 70}ms` }}>
-                <span className="font-mono text-navy" aria-hidden>
-                  &gt;_
-                </span>
-                {item}
-              </li>
-            ))}
-          </ul>
-          <div className="animate-rise flex flex-wrap gap-3 pt-2 [animation-delay:400ms]">
-            <a href="#contato" className="rounded-full bg-ink px-[22px] py-3.5 font-semibold text-paper transition-colors hover:bg-navy hover:text-white">
-              Solicitar demonstração
-            </a>
-            {p.href ? (
-              <a href={p.href} target="_blank" rel="noopener noreferrer" className="px-1 py-3.5 font-semibold">
-                Abrir {p.nome} ↗
-              </a>
-            ) : (
-              <a href="#contato" className="px-1 py-3.5 font-semibold">
-                Saiba mais ›
-              </a>
-            )}
-          </div>
+          {p.emBreve ? (
+            <>
+              <h3 className="animate-rise m-0 font-display text-[clamp(28px,3.5vw,44px)] leading-[1.02] font-extrabold tracking-[-.03em] [animation-delay:60ms]">
+                {p.nome}
+              </h3>
+              <span className="animate-rise w-fit rounded-full bg-ink px-4 py-2 font-mono text-sm text-cyan [animation-delay:120ms]">● em breve</span>
+            </>
+          ) : (
+            <>
+              <h3 className="animate-rise m-0 font-display text-[clamp(28px,3.5vw,44px)] leading-[1.02] font-extrabold tracking-[-.03em] [animation-delay:60ms]">
+                {p.titulo}
+              </h3>
+              <p className="animate-rise m-0 max-w-[52ch] text-[17px] leading-[1.55] text-slate sm:text-lg [animation-delay:120ms]">{p.texto}</p>
+              <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
+                {(p.itens ?? []).map((item, i) => (
+                  <li key={item} className="animate-rise flex items-baseline gap-3 text-base" style={{ animationDelay: `${180 + i * 70}ms` }}>
+                    <span className="font-mono text-navy" aria-hidden>
+                      &gt;_
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="animate-rise flex flex-wrap gap-3 pt-2 [animation-delay:400ms]">
+                <a href="#contato" className="rounded-full bg-ink px-[22px] py-3.5 font-semibold text-paper transition-colors hover:bg-navy hover:text-white">
+                  Solicitar demonstração
+                </a>
+                {p.href ? (
+                  <a href={p.href} target="_blank" rel="noopener noreferrer" className="px-1 py-3.5 font-semibold">
+                    Abrir {p.nome} ↗
+                  </a>
+                ) : (
+                  <a href="#contato" className="px-1 py-3.5 font-semibold">
+                    Saiba mais ›
+                  </a>
+                )}
+              </div>
+            </>
+          )}
         </div>
 
         <div className="flex flex-col gap-3.5 self-center rounded-[20px] bg-navy p-3 sm:p-[clamp(16px,2.5vw,28px)]">
@@ -151,7 +162,7 @@ function EmBreve({ nome, tag }: { nome: string; tag: string }) {
     >
       <span className="font-mono text-xs text-navy">&gt;_ {tag}</span>
       <strong className="font-display text-[clamp(24px,3vw,36px)] font-extrabold tracking-[-.03em] text-ink">{nome}</strong>
-      <span className="rounded-full bg-ink px-3 py-1 font-mono text-[11px] text-cyan">prévia em breve</span>
+      <span className="rounded-full bg-ink px-3 py-1 font-mono text-[11px] text-cyan">em breve</span>
     </div>
   );
 }
