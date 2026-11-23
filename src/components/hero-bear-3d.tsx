@@ -1,55 +1,19 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties, type RefObject } from "react";
+import { ALTURA, FaceLogo, LARGURA, PARTES, S, raio } from "./hero-bear-partes";
 
-// Urso Beara em 3D feito so com CSS 3D transforms (porte do design original).
-// Cada bloco do simbolo e uma pilha de camadas; o conjunto gira, "respira" e
-// abre, com aneis e cubos orbitando. O ponteiro (mouse ou dedo) inclina a cena.
-
-type Parte = {
-  x: number; y: number; w: number; h: number;
-  r: number | [number, number, number, number];
-  d: [number, number];
-  z: number;
-  orelha?: boolean;
-};
-
-const PARTES: Parte[] = [
-  { x: 6, y: 5, w: 25, h: 18, r: 3, d: [-1, -1.4], z: 1.3, orelha: true },
-  { x: 64, y: 5, w: 25, h: 18, r: 3, d: [1, -1.4], z: 1.3, orelha: true },
-  { x: 6, y: 26, w: 39, h: 29, r: [9, 1.5, 9, 1.5], d: [-1, -0.6], z: 0.6 },
-  { x: 50, y: 26, w: 39, h: 29, r: [1.5, 9, 1.5, 9], d: [1, -0.6], z: 1 },
-  { x: 6, y: 59, w: 39, h: 28, r: [1.5, 9, 1.5, 9], d: [-1, 0.8], z: 1 },
-  { x: 50, y: 59, w: 39, h: 28, r: [9, 1.5, 9, 1.5], d: [1, 0.8], z: 0.6 },
-];
-const S = 4.4;
-const CAMADAS = 9;
-const LARGURA = 87 * S;
-const ALTURA = 86 * S;
-
-const raio = (p: Parte) => (Array.isArray(p.r) ? p.r.map((v) => `${v * S}px`).join(" ") : `${p.r * S}px`);
+// Urso Beara em 3D so com CSS 3D transforms (porte do design original), em
+// versao enxuta: medido com CPU 6x mais lenta, as 10 camadas por bloco, os
+// aneis tracejados e o brilho dos cubos eram a maior parte do custo de desenho.
+// Agora: 3 camadas por bloco, aneis lisos e cubos sem sombra.
 
 export type Ponteiro = { x: number; y: number; tx: number; ty: number };
 
-function FaceLogo({ p, olhoRef }: { p: Parte; olhoRef: (el: SVGRectElement | null) => void }) {
-  return (
-    <svg
-      viewBox="4 3 87 86"
-      width={LARGURA}
-      height={ALTURA}
-      style={{ position: "absolute", left: -(p.x - 4) * S, top: -(p.y - 3) * S }}
-      aria-hidden
-    >
-      <rect x="0" y="0" width="100" height="100" fill="#FFFFFF" />
-      <path d="M4,86 C22,79 38,64 48,54 S74,32 91,29 L91,95 L4,95 Z" fill="#22D3EE" />
-      <path d="M4,86 C22,79 38,64 48,54 S74,32 91,29" fill="none" stroke="#1E3A8A" strokeWidth="2.6" />
-      <rect x="22" y="38" width="8" height="8" fill="#1E3A8A" ref={olhoRef} style={{ transformBox: "fill-box", transformOrigin: "center" }} />
-      <rect x="65" y="38" width="8" height="8" fill="#1E3A8A" ref={olhoRef} style={{ transformBox: "fill-box", transformOrigin: "center" }} />
-    </svg>
-  );
-}
+const CAMADAS = 3;
+const PASSO = 5; // px entre camadas (espessura total 15px)
 
-export function HeroBear3D({ ponteiro, chao }: { ponteiro: RefObject<Ponteiro>; chao: RefObject<HTMLDivElement | null> }) {
+export function HeroBear3D({ ponteiro, onPesado }: { ponteiro: RefObject<Ponteiro>; onPesado?: () => void }) {
   const caixa = useRef<HTMLDivElement>(null);
   const escala = useRef<HTMLDivElement>(null);
   const mundo = useRef<HTMLDivElement>(null);
@@ -58,12 +22,13 @@ export function HeroBear3D({ ponteiro, chao }: { ponteiro: RefObject<Ponteiro>; 
   const aneis = useRef<(HTMLDivElement | null)[]>([]);
   const cubos = useRef<(HTMLDivElement | null)[]>([]);
   const explosao = useRef(0);
+  const pesado = useRef(onPesado);
+  pesado.current = onPesado;
 
   useEffect(() => {
     const box = caixa.current;
     if (!box) return;
 
-    // escala recalculada so quando o tamanho muda, nao a cada quadro
     const ro = new ResizeObserver(() => {
       const sc = Math.min(1, box.clientWidth / (LARGURA * 1.15));
       if (escala.current) escala.current.style.transform = `scale(${sc})`;
@@ -74,10 +39,51 @@ export function HeroBear3D({ ponteiro, chao }: { ponteiro: RefObject<Ponteiro>; 
     let visivel = true;
     let raf = 0;
     let t0: number | null = null;
+    let ultimo = 0;
+    // Detecta aparelho que nao aguenta, por dois sinais nos primeiros segundos:
+    // 1) quadros lentos (mediana > 24ms); 2) tarefas longas na thread principal
+    // somando mais de 20% do tempo (Long Tasks API, Chrome/Android).
+    const quadros: number[] = [];
+    let quadrosAvaliados = false;
+    let decidido = false;
+    const declararPesado = () => {
+      if (decidido) return;
+      decidido = true;
+      pesado.current?.();
+    };
+    let longas = 0;
+    let obs: PerformanceObserver | undefined;
+    const inicioObs = performance.now();
+    try {
+      obs = new PerformanceObserver((lista) => {
+        for (const e of lista.getEntries()) longas += e.duration;
+        const decorrido = performance.now() - inicioObs;
+        if (decorrido > 1500 && longas / decorrido > 0.2) {
+          obs?.disconnect();
+          declararPesado();
+        }
+        if (decorrido > 6000) obs?.disconnect();
+      });
+      obs.observe({ type: "longtask", buffered: false });
+    } catch {
+      // navegador sem Long Tasks API (ex.: Safari): fica so o sinal dos quadros
+    }
 
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
       if (t0 === null) t0 = now;
+      if (!quadrosAvaliados && ultimo) {
+        quadros.push(now - ultimo);
+        // ignora os primeiros quadros (hidratacao) e avalia ~90 quadros
+        if (quadros.length >= 100) {
+          const amostra = quadros.slice(10).sort((a, b) => a - b);
+          const mediana = amostra[Math.floor(amostra.length / 2)];
+          quadrosAvaliados = true;
+          if (mediana > 24) declararPesado();
+        }
+      }
+      ultimo = now;
+
       const reduz = mq.matches;
       const t = reduz ? 0 : (now - t0) / 1000;
       const m = ponteiro.current;
@@ -110,14 +116,13 @@ export function HeroBear3D({ ponteiro, chao }: { ponteiro: RefObject<Ponteiro>; 
         const R = 230 + k * 18;
         cubo.style.transform = `translate3d(${Math.cos(a) * R}px,${Math.sin(a * 1.3) * 60 - 20}px,${Math.sin(a) * R * 0.6}px) rotateX(${t * 90}deg) rotateY(${t * 120}deg)`;
       }
-      if (chao.current) chao.current.style.backgroundPosition = `${mx * -40}px ${(t * 24) % 64}px`;
     };
 
     const iniciar = () => {
       cancelAnimationFrame(raf);
+      ultimo = 0;
       if (visivel && !document.hidden) raf = requestAnimationFrame(tick);
     };
-    // pausa quando o hero sai da tela ou a aba fica em segundo plano
     const io = new IntersectionObserver(([e]) => {
       visivel = e.isIntersecting;
       iniciar();
@@ -128,17 +133,18 @@ export function HeroBear3D({ ponteiro, chao }: { ponteiro: RefObject<Ponteiro>; 
 
     return () => {
       cancelAnimationFrame(raf);
+      obs?.disconnect();
       ro.disconnect();
       io.disconnect();
       document.removeEventListener("visibilitychange", iniciar);
     };
-  }, [ponteiro, chao]);
+  }, [ponteiro]);
 
   const registrarOlho = (el: SVGRectElement | null) => {
     if (el) olhos.current.add(el);
   };
 
-  const anel = (k: number, tamanho: number, tilt: string, tracejado: boolean): CSSProperties => ({
+  const anel = (tamanho: number, tilt: string, opacidade: number): CSSProperties => ({
     position: "absolute",
     left: "50%",
     top: "50%",
@@ -147,7 +153,7 @@ export function HeroBear3D({ ponteiro, chao }: { ponteiro: RefObject<Ponteiro>; 
     marginLeft: -tamanho / 2,
     marginTop: -tamanho / 2,
     borderRadius: "50%",
-    border: `1.5px ${tracejado ? "dashed" : "solid"} rgba(34,211,238,.55)`,
+    border: `1.5px solid rgba(34,211,238,${opacidade})`,
     transform: tilt,
   });
 
@@ -161,8 +167,8 @@ export function HeroBear3D({ ponteiro, chao }: { ponteiro: RefObject<Ponteiro>; 
     >
       <div ref={escala} className="relative shrink-0" style={{ width: LARGURA, height: ALTURA }}>
         <div ref={mundo} className="absolute inset-0 [transform-style:preserve-3d]">
-          <div ref={(el) => { aneis.current[0] = el; }} style={anel(0, 560, "rotateX(72deg)", false)} />
-          <div ref={(el) => { aneis.current[1] = el; }} style={anel(1, 470, "rotateX(72deg) rotateY(18deg)", true)} />
+          <div ref={(el) => { aneis.current[0] = el; }} style={anel(560, "rotateX(72deg)", 0.55)} />
+          <div ref={(el) => { aneis.current[1] = el; }} style={anel(470, "rotateX(72deg) rotateY(18deg)", 0.35)} />
           {[0, 1, 2, 3].map((k) => (
             <div
               key={`c${k}`}
@@ -175,7 +181,6 @@ export function HeroBear3D({ ponteiro, chao }: { ponteiro: RefObject<Ponteiro>; 
                 height: 18 - k * 3,
                 borderRadius: 3,
                 background: k % 2 ? "#FFFFFF" : "#22D3EE",
-                boxShadow: "0 0 24px rgba(34,211,238,.6)",
               }}
             />
           ))}
@@ -193,8 +198,8 @@ export function HeroBear3D({ ponteiro, chao }: { ponteiro: RefObject<Ponteiro>; 
                     position: "absolute",
                     inset: 0,
                     borderRadius: raio(p),
-                    background: l === CAMADAS ? "#081640" : l % 2 ? "#0E2466" : "#102870",
-                    transform: `translateZ(${-l * 3}px)`,
+                    background: l === CAMADAS ? "#081640" : "#0E2466",
+                    transform: `translateZ(${-l * PASSO}px)`,
                   }}
                 />
               ))}
