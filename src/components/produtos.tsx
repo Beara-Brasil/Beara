@@ -16,8 +16,22 @@ export function Produtos() {
       const i = (e as CustomEvent<number>).detail;
       if (typeof i === "number" && PRODUTOS[i]) setAtual(i);
     };
+    // links do tipo /#produto-delivery (rodape e paginas internas)
+    const lerHash = () => {
+      const m = /^#produto-(.+)$/.exec(window.location.hash);
+      if (!m) return;
+      const i = PRODUTOS.findIndex((x) => x.slug === m[1]);
+      if (i < 0) return;
+      setAtual(i);
+      document.getElementById("produtos")?.scrollIntoView({ block: "start" });
+    };
+    lerHash();
     window.addEventListener(EVENTO_PRODUTO, onEscolha);
-    return () => window.removeEventListener(EVENTO_PRODUTO, onEscolha);
+    window.addEventListener("hashchange", lerHash);
+    return () => {
+      window.removeEventListener(EVENTO_PRODUTO, onEscolha);
+      window.removeEventListener("hashchange", lerHash);
+    };
   }, []);
 
   // aba ativa sempre visivel na rolagem horizontal do celular

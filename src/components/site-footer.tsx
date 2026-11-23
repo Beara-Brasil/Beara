@@ -1,13 +1,14 @@
+import Link from "next/link";
 import { PRODUTOS, SEGMENTOS, contato, whatsappUrl } from "@/content/site";
 import { BearaMark } from "./logo";
 
 // Paginas que ainda nao existem ficam como texto (sem link quebrado).
-const EMPRESA = [{ nome: "Sobre nós", href: "#sobre" }, { nome: "Carreiras" }, { nome: "Parceiros" }, { nome: "Blog" }];
+const EMPRESA = [{ nome: "Sobre nós", href: "/#sobre" }, { nome: "Carreiras" }, { nome: "Parceiros" }, { nome: "Blog" }];
 const SUPORTE = [
-  { nome: "Fale conosco", href: "#contato" },
+  { nome: "Fale conosco", href: "/#contato" },
   { nome: "WhatsApp", href: whatsappUrl(), externo: true },
-  { nome: "Privacidade" },
-  { nome: "Termos de serviço" },
+  { nome: "Privacidade", href: "/privacidade" },
+  { nome: "Termos de serviço", href: "/termos" },
 ];
 
 type Item = { nome: string; href?: string; externo?: boolean };
@@ -20,9 +21,9 @@ function Coluna({ titulo, itens }: { titulo: string; itens: Item[] }) {
         {itens.map((i) =>
           <li key={i.nome}>
             {i.href ? (
-              <a href={i.href} {...(i.externo ? { target: "_blank", rel: "noopener noreferrer" } : {})} className="text-mist hover:text-cyan">
+              <Link href={i.href} {...(i.externo ? { target: "_blank", rel: "noopener noreferrer" } : {})} className="text-mist hover:text-cyan">
                 {i.nome}
-              </a>
+              </Link>
             ) : (
               <span>{i.nome}</span>
             )}
@@ -38,8 +39,8 @@ export function SiteFooter() {
     <footer className="mt-auto bg-ink text-mist">
       <div className="mx-auto flex max-w-[1320px] flex-col gap-12 px-4 pt-16 pb-[max(32px,env(safe-area-inset-bottom))] sm:px-[clamp(16px,4vw,40px)]">
         <div className="grid grid-cols-2 gap-8 text-sm lg:grid-cols-4">
-          <Coluna titulo="Soluções" itens={[...PRODUTOS.map((p) => ({ nome: p.nome, href: "#produtos" })), { nome: "Projetos sob medida", href: "#servicos" }]} />
-          <Coluna titulo="Segmentos" itens={SEGMENTOS.map((s) => ({ nome: s.nome, href: "#segmentos" }))} />
+          <Coluna titulo="Soluções" itens={[...PRODUTOS.map((p) => ({ nome: p.nome, href: `/#produto-${p.slug}` })), { nome: "Projetos sob medida", href: "/#servicos" }]} />
+          <Coluna titulo="Segmentos" itens={SEGMENTOS.map((s) => ({ nome: s.nome, href: "/#segmentos" }))} />
           <Coluna titulo="Empresa" itens={EMPRESA} />
           <Coluna titulo="Suporte" itens={SUPORTE} />
         </div>

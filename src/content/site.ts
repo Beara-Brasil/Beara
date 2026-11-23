@@ -75,8 +75,8 @@ export const PRODUTOS: Produto[] = [
   {
     slug: "delivery",
     nome: "Beara Delivery",
-    url: "beardelivery.vercel.app",
-    href: "https://beardelivery.vercel.app",
+    url: "bearadelivery.com.br",
+    href: "https://bearadelivery.com.br",
     img: "/produtos/beara-delivery.png",
     tag: "DELIVERY",
     resumo: "Marketplace de delivery com as lojas da cidade.",
@@ -136,6 +136,12 @@ export const UTILITARIOS = {
 export const EVENTO_PRODUTO = "beara:produto";
 
 export function abrirProduto(indice: number) {
+  const secao = document.getElementById("produtos");
+  // fora da home (privacidade, termos): navega para a home ja na aba certa
+  if (!secao) {
+    window.location.assign(`/#produto-${PRODUTOS[indice]?.slug ?? ""}`);
+    return;
+  }
   window.dispatchEvent(new CustomEvent(EVENTO_PRODUTO, { detail: indice }));
-  document.getElementById("produtos")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  secao.scrollIntoView({ behavior: "smooth", block: "start" });
 }

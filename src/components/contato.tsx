@@ -123,7 +123,12 @@ export function Contato() {
                 Enviar mensagem
                 <span className="grid size-10 place-items-center rounded-full bg-cyan text-lg text-ink transition-transform group-hover:translate-x-0.5">→</span>
               </button>
-              <span className="text-center text-xs text-muted">Abre o WhatsApp com sua mensagem. Seus dados são usados apenas para retornar o contato.</span>
+              <span className="text-center text-xs text-muted">Abre o WhatsApp com sua mensagem. Seus dados são usados apenas para retornar o contato —{" "}
+                <a href="/privacidade" className="underline underline-offset-2 hover:text-navy">
+                  política de privacidade
+                </a>
+                .
+              </span>
             </form>
           )}
         </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PRODUTOS, SEGMENTOS, abrirProduto, contato, whatsappUrl } from "@/content/site";
 import { BearaLogo } from "./logo";
@@ -65,9 +66,9 @@ export function SiteHeader() {
       onMouseLeave={() => setMenu(null)}
     >
       <div className="mx-auto flex h-16 max-w-[1320px] items-center gap-5 px-4 sm:px-[clamp(16px,4vw,40px)] lg:h-[72px]">
-        <a href="#topo" onClick={fechar} className="shrink-0 text-ink hover:text-ink" aria-label="Beara — início">
+        <Link href="/#topo" onClick={fechar} className="shrink-0 text-ink hover:text-ink" aria-label="Beara — início">
           <BearaLogo />
-        </a>
+        </Link>
 
         <nav aria-label="Principal" className="hidden min-w-0 flex-1 gap-1 text-[15px] font-medium whitespace-nowrap lg:flex">
           <button
@@ -90,19 +91,19 @@ export function SiteHeader() {
           >
             Segmentos <span aria-hidden className={`inline-block transition-transform ${menu === "seg" ? "rotate-180" : ""}`}>▾</span>
           </button>
-          <a href="#sobre" className={itemNav} onMouseEnter={() => setMenu(null)}>
+          <Link href="/#sobre" className={itemNav} onMouseEnter={() => setMenu(null)}>
             Sobre
-          </a>
+          </Link>
         </nav>
 
         <div className="ml-auto flex shrink-0 items-center gap-2.5">
-          <a
-            href="#contato"
+          <Link
+            href="/#contato"
             onClick={fechar}
             className="rounded-full bg-ink px-4 py-2.5 text-sm font-semibold whitespace-nowrap text-paper transition-colors hover:bg-navy hover:text-white sm:px-5 sm:py-[11px] sm:text-[15px]"
           >
             Fale conosco
-          </a>
+          </Link>
           <button
             type="button"
             className="grid size-10 place-items-center rounded-full border border-line lg:hidden"
@@ -144,16 +145,16 @@ export function SiteHeader() {
         <div id="menu-segmentos" className="absolute inset-x-0 top-full hidden border-b border-line bg-white shadow-[0_24px_48px_-24px_rgba(15,20,32,.25)] lg:block">
           <div className="mx-auto grid max-w-[1320px] grid-cols-6 gap-3 px-[clamp(16px,4vw,40px)] py-8">
             {SEGMENTOS.map((s, i) => (
-              <a
+              <Link
                 key={s.nome}
-                href="#segmentos"
+                href="/#segmentos"
                 onClick={fechar}
                 className="animate-rise flex items-center justify-between rounded-xl border border-line p-4 font-semibold transition-colors hover:bg-paper"
                 style={{ animationDelay: `${i * 40}ms`, animationDuration: ".4s" }}
               >
                 {s.nome}
                 <span className="text-navy">›</span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -179,16 +180,16 @@ export function SiteHeader() {
           <Acordeao titulo="Segmentos" aberto={aberto === "seg"} onToggle={() => setAberto(aberto === "seg" ? null : "seg")}>
             <div className="grid grid-cols-2 gap-2 pb-2">
               {SEGMENTOS.map((s) => (
-                <a key={s.nome} href="#segmentos" onClick={fechar} className="flex items-center justify-between rounded-xl border border-line px-3 py-3 text-[15px] font-semibold">
+                <Link key={s.nome} href="/#segmentos" onClick={fechar} className="flex items-center justify-between rounded-xl border border-line px-3 py-3 text-[15px] font-semibold">
                   {s.nome}
                   <span className="text-navy">›</span>
-                </a>
+                </Link>
               ))}
             </div>
           </Acordeao>
-          <a href="#sobre" onClick={fechar} className="flex items-center justify-between border-b border-line py-5 font-display text-2xl font-extrabold tracking-[-.02em]">
+          <Link href="/#sobre" onClick={fechar} className="flex items-center justify-between border-b border-line py-5 font-display text-2xl font-extrabold tracking-[-.02em]">
             Sobre <span className="text-navy">›</span>
-          </a>
+          </Link>
         </nav>
         <div className="mt-auto flex flex-col gap-3 bg-paper px-4 pt-6 pb-[max(24px,env(safe-area-inset-bottom))]">
           <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded-full bg-ink py-2 pr-2 pl-6 font-semibold text-white">

@@ -51,7 +51,9 @@ src/
 
 - O formulário não tem backend: abre o WhatsApp com a mensagem preenchida.
   Para receber por e-mail, falta escolher o serviço de envio.
-- Parceiros, Carreiras, Conteúdos, Blog, Privacidade e Termos ainda não têm
-  página — aparecem como texto, sem link.
-- A prévia do Beara Delivery (`public/produtos/beara-delivery.png`) ainda
-  mostra a marca antiga "Bear Delivery". O Beara Entregas aparece só como "em breve".
+- Parceiros, Carreiras, Conteúdos e Blog ainda não têm página — aparecem como
+  texto, sem link.
+- `/privacidade` e `/termos` são texto-base: revisar com o jurídico e incluir
+  razão social e CNPJ.
+- A prévia do Beara Delivery foi montada com o rosto do mascote da `dev` do
+  `Beara-delivery-app-web` (`public/brand/bear_delivery_icon.png`).
