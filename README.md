@@ -16,10 +16,20 @@ pnpm dev        # http://localhost:3000
 pnpm lint
 pnpm typecheck
 pnpm build
+pnpm test       # vitest
 ```
 
-Variável opcional: `NEXT_PUBLIC_SITE_URL` (padrão `https://beara.com.br`),
-usada nos metadados, Open Graph e sitemap. Veja `.env.example`.
+Variáveis (veja `.env.example`):
+
+| Variável | Para quê |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | URL pública, usada em metadados, Open Graph e sitemap (padrão `https://beara.com.br`) |
+| `RESEND_API_KEY` | Chave do Resend para o formulário enviar e-mail. **Segredo**: só na Vercel |
+| `CONTATO_PARA` | Quem recebe as mensagens (padrão `contato@beara.com.br`) |
+| `CONTATO_DE` | Remetente; precisa ser de domínio verificado no Resend (padrão `Site Beara <onboarding@resend.dev>`) |
+
+Sem `RESEND_API_KEY`, a rota `/api/contato` responde 503 e o formulário oferece o
+WhatsApp com a mensagem pronta.
 
 ## Estrutura
 
@@ -33,7 +43,7 @@ src/
     site-header.tsx     mega-menu (desktop) e gaveta com acordeão (celular)
     produtos.tsx        abas de produto com prévia
     secoes.tsx          segmentos, sobre, etapas, serviços e faixa de stack
-    contato.tsx         formulário que abre o WhatsApp com a mensagem pronta
+    contato.tsx         formulário que envia por e-mail (/api/contato); WhatsApp de reserva
     cta-movel.tsx       barra fixa de contato no celular
     reveal.tsx          entradas ao rolar
 ```
@@ -49,8 +59,6 @@ src/
 
 ## Pendências
 
-- O formulário não tem backend: abre o WhatsApp com a mensagem preenchida.
-  Para receber por e-mail, falta escolher o serviço de envio.
 - Parceiros, Carreiras, Conteúdos e Blog ainda não têm página — aparecem como
   texto, sem link.
 - `/privacidade` e `/termos` são texto-base: revisar com o jurídico e incluir

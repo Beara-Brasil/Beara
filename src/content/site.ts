@@ -5,7 +5,7 @@ export const contato = {
   whatsapp: "5528999481413",
   telefone: "+55 (28) 99948-1413",
   telefoneHref: "tel:+5528999481413",
-  email: "contato@bearsystem.com.br",
+  email: "contato@beara.com.br",
 } as const;
 
 export const whatsappUrl = (texto?: string) =>
