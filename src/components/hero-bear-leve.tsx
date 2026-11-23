@@ -3,11 +3,12 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ALTURA, FaceLogo, LARGURA, PARTES, S, raio } from "./hero-bear-partes";
 
-// Versao leve do urso, para aparelho fraco: blocos planos com uma inclinacao
+// Versao leve do urso (nivel 1 do ajuste automatico): blocos planos com uma inclinacao
 // fixa e animacoes so de CSS (translate/transform), que a placa de video faz
 // sozinha. Sem requestAnimationFrame, sem camadas empilhadas.
 
-export function HeroBearLeve() {
+// parado = nivel 0: mesmo desenho, sem animacao
+export function HeroBearLeve({ parado = false }: { parado?: boolean }) {
   const caixa = useRef<HTMLDivElement>(null);
   const escala = useRef<HTMLDivElement>(null);
   const [abrindo, setAbrindo] = useState(false);
@@ -31,7 +32,7 @@ export function HeroBearLeve() {
   return (
     <div
       ref={caixa}
-      className="relative flex aspect-square w-full max-w-[520px] cursor-pointer items-center justify-center select-none"
+      className={`relative flex aspect-square w-full max-w-[520px] cursor-pointer items-center justify-center select-none ${parado ? "[&_*]:[animation-play-state:paused]" : ""}`}
       onClick={abrir}
       role="img"
       aria-label="Símbolo da Beara"

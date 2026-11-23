@@ -110,6 +110,7 @@ body {
   50% { transform: translate3d(0, -18px, 0) rotate(90deg); }
 }
 .urso-chao { animation: urso-chao 2.67s linear infinite; will-change: transform; }
+[data-urso="0"] .urso-chao { animation-play-state: paused; }
 .urso-flutuar { animation: urso-flutuar 7s ease-in-out infinite; will-change: transform; }
 .urso-respirar { animation: urso-respirar 4.5s ease-in-out infinite; }
 .urso-abrir { animation: urso-abrir 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }

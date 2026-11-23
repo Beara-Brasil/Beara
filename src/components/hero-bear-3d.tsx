@@ -6,14 +6,16 @@ import { ALTURA, FaceLogo, LARGURA, PARTES, S, raio } from "./hero-bear-partes";
 // Urso Beara em 3D so com CSS 3D transforms (porte do design original), em
 // versao enxuta: medido com CPU 6x mais lenta, as 10 camadas por bloco, os
 // aneis tracejados e o brilho dos cubos eram a maior parte do custo de desenho.
-// Agora: 3 camadas por bloco, aneis lisos e cubos sem sombra.
+// Agora: 3 camadas por bloco, aneis lisos e cubos sem sombra. Qual versao
+// aparece (3D, 3D simples, leve ou parada) e decidido em hero-bear.tsx.
 
 export type Ponteiro = { x: number; y: number; tx: number; ty: number };
 
 const CAMADAS = 3;
 const PASSO = 5; // px entre camadas (espessura total 15px)
 
-export function HeroBear3D({ ponteiro, onPesado }: { ponteiro: RefObject<Ponteiro>; onPesado?: () => void }) {
+// simples = nivel 2 do ajuste automatico: sem aneis e cubos, a ~30 qps
+export function HeroBear3D({ ponteiro, simples = false }: { ponteiro: RefObject<Ponteiro>; simples?: boolean }) {
   const caixa = useRef<HTMLDivElement>(null);
   const escala = useRef<HTMLDivElement>(null);
   const mundo = useRef<HTMLDivElement>(null);
@@ -22,8 +24,8 @@ export function HeroBear3D({ ponteiro, onPesado }: { ponteiro: RefObject<Ponteir
   const aneis = useRef<(HTMLDivElement | null)[]>([]);
   const cubos = useRef<(HTMLDivElement | null)[]>([]);
   const explosao = useRef(0);
-  const pesado = useRef(onPesado);
-  pesado.current = onPesado;
+  const simplesRef = useRef(simples);
+  simplesRef.current = simples;
 
   useEffect(() => {
     const box = caixa.current;
@@ -39,50 +41,14 @@ export function HeroBear3D({ ponteiro, onPesado }: { ponteiro: RefObject<Ponteir
     let visivel = true;
     let raf = 0;
     let t0: number | null = null;
-    let ultimo = 0;
-    // Detecta aparelho que nao aguenta, por dois sinais nos primeiros segundos:
-    // 1) quadros lentos (mediana > 24ms); 2) tarefas longas na thread principal
-    // somando mais de 20% do tempo (Long Tasks API, Chrome/Android).
-    const quadros: number[] = [];
-    let quadrosAvaliados = false;
-    let decidido = false;
-    const declararPesado = () => {
-      if (decidido) return;
-      decidido = true;
-      pesado.current?.();
-    };
-    let longas = 0;
-    let obs: PerformanceObserver | undefined;
-    const inicioObs = performance.now();
-    try {
-      obs = new PerformanceObserver((lista) => {
-        for (const e of lista.getEntries()) longas += e.duration;
-        const decorrido = performance.now() - inicioObs;
-        if (decorrido > 1500 && longas / decorrido > 0.2) {
-          obs?.disconnect();
-          declararPesado();
-        }
-        if (decorrido > 6000) obs?.disconnect();
-      });
-      obs.observe({ type: "longtask", buffered: false });
-    } catch {
-      // navegador sem Long Tasks API (ex.: Safari): fica so o sinal dos quadros
-    }
+    let ultimoDesenho = 0;
 
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
       if (t0 === null) t0 = now;
-      if (!quadrosAvaliados && ultimo) {
-        quadros.push(now - ultimo);
-        // ignora os primeiros quadros (hidratacao) e avalia ~90 quadros
-        if (quadros.length >= 100) {
-          const amostra = quadros.slice(10).sort((a, b) => a - b);
-          const mediana = amostra[Math.floor(amostra.length / 2)];
-          quadrosAvaliados = true;
-          if (mediana > 24) declararPesado();
-        }
-      }
-      ultimo = now;
+      // nivel 2 (simples): desenha a ~30 qps para aliviar o aparelho
+      if (simplesRef.current && now - ultimoDesenho < 30) return;
+      ultimoDesenho = now;
 
       const reduz = mq.matches;
       const t = reduz ? 0 : (now - t0) / 1000;
@@ -120,7 +86,6 @@ export function HeroBear3D({ ponteiro, onPesado }: { ponteiro: RefObject<Ponteir
 
     const iniciar = () => {
       cancelAnimationFrame(raf);
-      ultimo = 0;
       if (visivel && !document.hidden) raf = requestAnimationFrame(tick);
     };
     const io = new IntersectionObserver(([e]) => {
@@ -133,7 +98,6 @@ export function HeroBear3D({ ponteiro, onPesado }: { ponteiro: RefObject<Ponteir
 
     return () => {
       cancelAnimationFrame(raf);
-      obs?.disconnect();
       ro.disconnect();
       io.disconnect();
       document.removeEventListener("visibilitychange", iniciar);
@@ -167,9 +131,9 @@ export function HeroBear3D({ ponteiro, onPesado }: { ponteiro: RefObject<Ponteir
     >
       <div ref={escala} className="relative shrink-0" style={{ width: LARGURA, height: ALTURA }}>
         <div ref={mundo} className="absolute inset-0 [transform-style:preserve-3d]">
-          <div ref={(el) => { aneis.current[0] = el; }} style={anel(560, "rotateX(72deg)", 0.55)} />
-          <div ref={(el) => { aneis.current[1] = el; }} style={anel(470, "rotateX(72deg) rotateY(18deg)", 0.35)} />
-          {[0, 1, 2, 3].map((k) => (
+          {!simples && <div ref={(el) => { aneis.current[0] = el; }} style={anel(560, "rotateX(72deg)", 0.55)} />}
+          {!simples && <div ref={(el) => { aneis.current[1] = el; }} style={anel(470, "rotateX(72deg) rotateY(18deg)", 0.35)} />}
+          {!simples && [0, 1, 2, 3].map((k) => (
             <div
               key={`c${k}`}
               ref={(el) => { cubos.current[k] = el; }}
