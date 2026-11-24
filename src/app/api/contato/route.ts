@@ -9,7 +9,7 @@ import { limiteContato } from "@/lib/limite";
 //   RESEND_API_KEY  chave do Resend (segredo; nunca NEXT_PUBLIC_)
 //   CONTATO_PARA    quem recebe            (padrao: contato@beara.com.br)
 //   CONTATO_DE      remetente verificado   (padrao: Site Beara <onboarding@resend.dev>)
-// Sem RESEND_API_KEY a rota responde 503 e o formulario oferece o WhatsApp.
+// Sem RESEND_API_KEY a rota responde 503 e o formulario oferece o mailto.
 
 export const runtime = "nodejs";
 
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
   }
 
   const chave = process.env.RESEND_API_KEY;
-  if (!chave) return NextResponse.json({ ok: false, erro: "Não conseguimos enviar por e-mail agora. Mande pelo WhatsApp, já com tudo preenchido:" }, { status: 503 });
+  if (!chave) return NextResponse.json({ ok: false, erro: "Não conseguimos enviar agora. Mande direto pelo seu e-mail, já com tudo preenchido:" }, { status: 503 });
 
   const { assunto, texto, html } = montarEmail(v.dados);
   try {
@@ -49,11 +49,11 @@ export async function POST(req: Request) {
     if (!r.ok) {
       // loga so o status e a resposta do Resend, nunca os dados da pessoa
       console.error("[contato] Resend respondeu", r.status, (await r.text()).slice(0, 300));
-      return NextResponse.json({ ok: false, erro: "Não conseguimos enviar por e-mail agora. Mande pelo WhatsApp, já com tudo preenchido:" }, { status: 502 });
+      return NextResponse.json({ ok: false, erro: "Não conseguimos enviar agora. Mande direto pelo seu e-mail, já com tudo preenchido:" }, { status: 502 });
     }
   } catch (err) {
     console.error("[contato] falha ao chamar o Resend", (err as Error).name);
-    return NextResponse.json({ ok: false, erro: "Não conseguimos enviar por e-mail agora. Mande pelo WhatsApp, já com tudo preenchido:" }, { status: 502 });
+    return NextResponse.json({ ok: false, erro: "Não conseguimos enviar agora. Mande direto pelo seu e-mail, já com tudo preenchido:" }, { status: 502 });
   }
   return NextResponse.json({ ok: true });
 }

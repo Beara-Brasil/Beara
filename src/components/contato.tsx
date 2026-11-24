@@ -1,18 +1,18 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { INTERESSES, contato, whatsappUrl } from "@/content/site";
-import { mensagemWhatsapp, validarContato } from "@/lib/contato";
+import { INTERESSES, contato, emailUrl } from "@/content/site";
+import { mensagemTexto, validarContato } from "@/lib/contato";
 
 // O envio vai para /api/contato, que manda um e-mail para a Beara. Se o envio
-// por e-mail falhar, o formulario oferece o WhatsApp com a mensagem pronta.
+// falhar, o formulario oferece abrir o e-mail da pessoa com a mensagem pronta.
 // Nada e gravado no navegador.
 
 const campo =
   "w-full rounded-xl border border-line bg-paper px-4 py-3.5 text-base text-ink outline-none transition focus:border-navy focus:bg-white focus:ring-4 focus:ring-cyan/25";
 const rotulo = "flex flex-col gap-1.5 text-[13px] font-semibold text-slate";
 
-type Estado = { tipo: "editando" } | { tipo: "enviando" } | { tipo: "enviado" } | { tipo: "erro"; mensagem: string; whatsapp?: string };
+type Estado = { tipo: "editando" } | { tipo: "enviando" } | { tipo: "enviado" } | { tipo: "erro"; mensagem: string; reserva?: string };
 
 export function Contato() {
   const [interesses, setInteresses] = useState<string[]>([]);
@@ -28,7 +28,7 @@ export function Contato() {
     const corpo = { ...Object.fromEntries(["nome", "empresa", "email", "whatsapp", "desafio", "site"].map((k) => [k, String(f.get(k) ?? "")])), interesses };
     const v = validarContato(corpo);
     if (!v.ok) return setEstado({ tipo: "erro", mensagem: v.erro });
-    const reserva = whatsappUrl(mensagemWhatsapp(v.dados));
+    const reserva = emailUrl(`Contato pelo site: ${v.dados.nome}`, mensagemTexto(v.dados));
 
     setEstado({ tipo: "enviando" });
     try {
@@ -39,11 +39,11 @@ export function Contato() {
         setInteresses([]);
         return setEstado({ tipo: "enviado" });
       }
-      // dado recusado: a pessoa corrige; falha do envio: oferece o WhatsApp
+      // dado recusado: a pessoa corrige; falha do envio: oferece o e-mail
       if (r.status === 422) return setEstado({ tipo: "erro", mensagem: resposta.erro ?? "Confira os campos." });
-      setEstado({ tipo: "erro", mensagem: resposta.erro ?? "Não foi possível enviar agora.", whatsapp: reserva });
+      setEstado({ tipo: "erro", mensagem: resposta.erro ?? "Não conseguimos enviar agora.", reserva });
     } catch {
-      setEstado({ tipo: "erro", mensagem: "Sem conexão no momento.", whatsapp: reserva });
+      setEstado({ tipo: "erro", mensagem: "Sem conexão no momento. Tente de novo ou mande direto pelo seu e-mail:", reserva });
     }
   };
 
@@ -65,7 +65,6 @@ export function Contato() {
             </p>
           </div>
           <div className="flex flex-col border-t border-navy-line">
-            <CanalLink href={whatsappUrl()} externo rotulo="WhatsApp" valor={contato.telefone} />
             <CanalLink href={`mailto:${contato.email}`} rotulo="E-mail" valor={contato.email} />
           </div>
         </div>
@@ -123,7 +122,7 @@ export function Contato() {
                   <input name="email" required type="email" autoComplete="email" inputMode="email" placeholder="voce@empresa.com" className={campo} />
                 </label>
                 <label className={rotulo}>
-                  WhatsApp
+                  WhatsApp (opcional)
                   <input name="whatsapp" type="tel" autoComplete="tel" inputMode="tel" placeholder="(00) 00000-0000" className={campo} />
                 </label>
               </div>
@@ -134,9 +133,9 @@ export function Contato() {
               {estado.tipo === "erro" && (
                 <div role="alert" className="flex flex-col gap-3 rounded-xl border border-[#F5C2C7] bg-[#FDF2F3] px-4 py-3 text-sm text-[#8A1C2B]">
                   <span>{estado.mensagem}</span>
-                  {estado.whatsapp && (
-                    <a href={estado.whatsapp} target="_blank" rel="noopener noreferrer" className="w-fit rounded-full bg-ink px-4 py-2 font-semibold text-white hover:bg-navy hover:text-white">
-                      Enviar pelo WhatsApp ↗
+                  {estado.reserva && (
+                    <a href={estado.reserva} className="w-fit rounded-full bg-ink px-4 py-2 font-semibold text-white hover:bg-navy hover:text-white">
+                      Enviar pelo meu e-mail ↗
                     </a>
                   )}
                 </div>

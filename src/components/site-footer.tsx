@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { PRODUTOS, SEGMENTOS, contato, whatsappUrl } from "@/content/site";
+import { PRODUTOS, SEGMENTOS, contato, emailUrl } from "@/content/site";
 import { BearaMark } from "./logo";
 
 // Paginas que ainda nao existem ficam como texto (sem link quebrado).
 const EMPRESA = [{ nome: "Sobre nós", href: "/#sobre" }, { nome: "Carreiras" }, { nome: "Parceiros" }, { nome: "Blog" }];
 const SUPORTE = [
   { nome: "Fale conosco", href: "/#contato" },
-  { nome: "WhatsApp", href: whatsappUrl(), externo: true },
+  { nome: "E-mail", href: emailUrl() },
   { nome: "Privacidade", href: "/privacidade" },
   { nome: "Termos de serviço", href: "/termos" },
 ];

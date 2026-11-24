@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { PRODUTOS, SEGMENTOS, abrirProduto, contato, whatsappUrl } from "@/content/site";
+import { PRODUTOS, SEGMENTOS, abrirProduto, contato, emailUrl } from "@/content/site";
 import { BearaLogo } from "./logo";
 
 type Menu = "sol" | "seg" | null;
@@ -192,12 +192,12 @@ export function SiteHeader() {
           </Link>
         </nav>
         <div className="mt-auto flex flex-col gap-3 bg-paper px-4 pt-6 pb-[max(24px,env(safe-area-inset-bottom))]">
-          <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded-full bg-ink py-2 pr-2 pl-6 font-semibold text-white">
-            Chamar no WhatsApp
-            <span className="grid size-10 place-items-center rounded-full bg-cyan text-ink">↗</span>
-          </a>
-          <a href={contato.telefoneHref} className="text-center font-mono text-sm text-slate">
-            {contato.telefone}
+          <Link href="/#contato" onClick={fechar} className="flex items-center justify-between rounded-full bg-ink py-2 pr-2 pl-6 font-semibold text-white">
+            Fale com um especialista
+            <span className="grid size-10 place-items-center rounded-full bg-cyan text-ink">→</span>
+          </Link>
+          <a href={emailUrl()} className="text-center font-mono text-sm text-slate">
+            {contato.email}
           </a>
         </div>
       </div>

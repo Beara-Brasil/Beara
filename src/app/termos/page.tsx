@@ -57,7 +57,7 @@ export default function Termos() {
           corpo: (
             <>
               <p>
-                Enviar uma mensagem pelo formulário, por e-mail ou por WhatsApp não cria contrato nem obrigação para nenhuma das partes. Prazos de
+                Enviar uma mensagem pelo formulário ou por e-mail não cria contrato nem obrigação para nenhuma das partes. Prazos de
                 resposta citados no site são uma meta de atendimento, não uma garantia.
               </p>
               <p>
@@ -98,7 +98,7 @@ export default function Termos() {
           titulo: "Links para outros sites",
           corpo: (
             <p>
-              O site tem links para serviços de terceiros, como o WhatsApp. Não controlamos esses serviços e não respondemos pelo conteúdo ou pelas
+              O site pode ter links para sites e serviços de terceiros. Não controlamos esses serviços e não respondemos pelo conteúdo ou pelas
               práticas deles. Ao usá-los, valem os termos de cada um.
             </p>
           ),

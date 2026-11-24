@@ -1,4 +1,4 @@
-import { UTILITARIOS, contato, whatsappUrl } from "@/content/site";
+import { UTILITARIOS, contato, emailUrl } from "@/content/site";
 
 // Barra fina acima do header. Some no celular (o menu movel cobre o contato).
 export function UtilityBar() {
@@ -13,11 +13,11 @@ export function UtilityBar() {
           ))}
         </div>
         <div className="flex flex-wrap gap-5">
-          <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer" className="text-mist hover:text-cyan">
+          <a href={emailUrl("Suporte")} className="text-mist hover:text-cyan">
             Suporte
           </a>
-          <a href={contato.telefoneHref} className="font-mono text-mist hover:text-cyan">
-            {contato.telefone}
+          <a href={emailUrl()} className="font-mono text-mist hover:text-cyan">
+            {contato.email}
           </a>
         </div>
       </div>

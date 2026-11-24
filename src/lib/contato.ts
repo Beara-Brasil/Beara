@@ -1,5 +1,5 @@
 // Formulario de contato: validacao e montagem da mensagem. Usado pela rota
-// /api/contato (servidor) e pelo formulario (para o WhatsApp de reserva).
+// /api/contato (servidor) e pelo formulario (para o e-mail de reserva).
 
 import { INTERESSES } from "@/content/site";
 
@@ -49,8 +49,8 @@ export function validarContato(entrada: unknown): Resultado {
   };
 }
 
-// texto da mensagem para o WhatsApp de reserva
-export function mensagemWhatsapp(d: DadosContato) {
+// texto da mensagem de reserva (mailto), quando o envio pelo site falha
+export function mensagemTexto(d: DadosContato) {
   return [
     `Olá, Beara! Sou ${d.nome}${d.empresa ? `, da ${d.empresa}` : ""}.`,
     d.interesses.length ? `Interesse: ${d.interesses.join(", ")}.` : "",

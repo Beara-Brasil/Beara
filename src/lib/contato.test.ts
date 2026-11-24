@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { mensagemWhatsapp, montarEmail, validarContato } from "./contato";
+import { mensagemTexto, montarEmail, validarContato } from "./contato";
 
 const base = { nome: "Ana", email: "ana@empresa.com", interesses: [] };
 
@@ -53,8 +53,8 @@ describe("montarEmail", () => {
     expect(assunto).not.toMatch(/[\r\n]/);
   });
 
-  it("mensagem do WhatsApp tem os dados preenchidos", () => {
-    const m = mensagemWhatsapp({ nome: "Ana", email: "a@b.co", empresa: "Loja", interesses: ["Beara Delivery"], desafio: "app" });
+  it("mensagem de reserva tem os dados preenchidos", () => {
+    const m = mensagemTexto({ nome: "Ana", email: "a@b.co", empresa: "Loja", interesses: ["Beara Delivery"], desafio: "app" });
     expect(m).toContain("Sou Ana, da Loja");
     expect(m).toContain("Interesse: Beara Delivery.");
   });

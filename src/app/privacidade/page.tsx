@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PaginaLegal } from "@/components/pagina-legal";
-import { contato, whatsappUrl } from "@/content/site";
+import { contato } from "@/content/site";
 
-// Texto-base escrito a partir do que o site faz hoje (formulario -> WhatsApp,
+// Texto-base escrito a partir do que o site faz hoje (formulario -> e-mail,
 // sem cookies de rastreamento). Revisar com o juridico e incluir razao social e
 // CNPJ antes de tratar como versao final.
 
@@ -50,9 +50,9 @@ export default function Privacidade() {
               </p>
               <p>
                 Ao enviar, essas informações são mandadas por e-mail para a nossa caixa de contato. O site <strong>não guarda os dados</strong> em banco
-                de dados nem no seu navegador: eles só passam pelo servidor a caminho do e-mail. Se o envio por e-mail falhar, o site oferece abrir o
-                WhatsApp com a mensagem pronta, e aí os dados só chegam até nós se você decidir enviar. O mesmo vale quando você nos escreve por
-                e-mail ou WhatsApp diretamente.
+                de dados nem no seu navegador: eles só passam pelo servidor a caminho do e-mail. Se o envio falhar, o site oferece abrir o seu
+                próprio e-mail com a mensagem pronta, e aí os dados só chegam até nós se você decidir enviar. O mesmo vale quando você nos escreve
+                por e-mail diretamente.
               </p>
               <p>
                 <strong>Dados técnicos de acesso.</strong> Como todo site, o nosso provedor de hospedagem registra dados técnicos das visitas, como endereço
@@ -101,7 +101,6 @@ export default function Privacidade() {
               <ul>
                 <li>o Resend, serviço que entrega para a nossa caixa as mensagens enviadas pelo formulário;</li>
                 <li>o nosso provedor de e-mail, onde as mensagens ficam guardadas para o atendimento;</li>
-                <li>o WhatsApp (Meta), quando você escolhe falar com a gente por lá;</li>
                 <li>o provedor de hospedagem do site, para os dados técnicos de acesso.</li>
               </ul>
               <p>Também podemos compartilhar dados quando a lei ou uma autoridade competente exigir.</p>
@@ -169,7 +168,7 @@ export default function Privacidade() {
           titulo: "Fale com a gente",
           corpo: (
             <p>
-              Dúvidas sobre privacidade: {email} ou <a href={whatsappUrl()}>WhatsApp {contato.telefone}</a>. Veja também os{" "}
+              Dúvidas sobre privacidade: {email}. Veja também os{" "}
               <Link href="/termos">Termos de serviço</Link>.
             </p>
           ),

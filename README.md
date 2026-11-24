@@ -28,8 +28,8 @@ Variáveis (veja `.env.example`):
 | `CONTATO_PARA` | Quem recebe as mensagens (padrão `contato@beara.com.br`) |
 | `CONTATO_DE` | Remetente; precisa ser de domínio verificado no Resend (padrão `Site Beara <onboarding@resend.dev>`) |
 
-Sem `RESEND_API_KEY`, a rota `/api/contato` responde 503 e o formulário oferece o
-WhatsApp com a mensagem pronta.
+Sem `RESEND_API_KEY`, a rota `/api/contato` responde 503 e o formulário oferece
+abrir o e-mail da pessoa (`mailto:`) com a mensagem pronta.
 
 ## Estrutura
 
@@ -43,7 +43,7 @@ src/
     site-header.tsx     mega-menu (desktop) e gaveta com acordeão (celular)
     produtos.tsx        abas de produto com prévia
     secoes.tsx          segmentos, sobre, etapas, serviços e faixa de stack
-    contato.tsx         formulário que envia por e-mail (/api/contato); WhatsApp de reserva
+    contato.tsx         formulário que envia por e-mail (/api/contato); mailto de reserva
     cta-movel.tsx       barra fixa de contato no celular
     reveal.tsx          entradas ao rolar
 ```
@@ -51,7 +51,7 @@ src/
 ## Celular
 
 - Utility bar some; header vira logo + "Fale conosco" + menu hambúrguer.
-- Gaveta em tela cheia com Soluções/Segmentos em acordeão e atalho para WhatsApp.
+- Gaveta em tela cheia com Soluções/Segmentos em acordeão e atalho para o contato.
 - Hero: deslize para trocar o slide; o urso responde ao toque.
 - Abas de produto com rolagem horizontal.
 - Barra fixa "Fale com um especialista" aparece depois do hero e some no contato.

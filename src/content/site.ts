@@ -2,14 +2,14 @@
 // (Beara_Site, Claude Design). Para trocar copy, mexa aqui.
 
 export const contato = {
-  whatsapp: "5528999481413",
-  telefone: "+55 (28) 99948-1413",
-  telefoneHref: "tel:+5528999481413",
   email: "contato@beara.com.br",
 } as const;
 
-export const whatsappUrl = (texto?: string) =>
-  `https://wa.me/${contato.whatsapp}${texto ? `?text=${encodeURIComponent(texto)}` : ""}`;
+// link de e-mail, opcionalmente com assunto e texto ja preenchidos
+export const emailUrl = (assunto?: string, corpo?: string) => {
+  const q = [assunto && `subject=${encodeURIComponent(assunto)}`, corpo && `body=${encodeURIComponent(corpo)}`].filter(Boolean).join("&");
+  return `mailto:${contato.email}${q ? `?${q}` : ""}`;
+};
 
 export type Linha = { k: string; v: string };
 
