@@ -2,10 +2,11 @@ import Link from "next/link";
 import { PRODUTOS, SEGMENTOS, contato, emailUrl } from "@/content/site";
 import { BearaMark } from "./logo";
 
-// Paginas que ainda nao existem ficam como texto (sem link quebrado).
-const EMPRESA = [{ nome: "Sobre nós", href: "/#sobre" }, { nome: "Carreiras" }, { nome: "Parceiros" }, { nome: "Blog" }];
-const SUPORTE = [
+const EMPRESA = [
+  { nome: "Sobre nós", href: "/#sobre" },
   { nome: "Fale conosco", href: "/#contato" },
+];
+const SUPORTE = [
   { nome: "E-mail", href: emailUrl() },
   { nome: "Privacidade", href: "/privacidade" },
   { nome: "Termos de serviço", href: "/termos" },
@@ -39,7 +40,7 @@ export function SiteFooter() {
     <footer className="mt-auto bg-ink text-mist">
       <div className="mx-auto flex max-w-[1320px] flex-col gap-12 px-4 pt-16 pb-[max(32px,env(safe-area-inset-bottom))] sm:px-[clamp(16px,4vw,40px)]">
         <div className="grid grid-cols-2 gap-8 text-sm lg:grid-cols-4">
-          <Coluna titulo="Soluções" itens={[...PRODUTOS.map((p) => ({ nome: p.nome, href: `/#produto-${p.slug}` })), { nome: "Projetos sob medida", href: "/#servicos" }]} />
+          <Coluna titulo="Soluções" itens={PRODUTOS.map((p) => ({ nome: p.nome, href: `/#produto-${p.slug}` }))} />
           <Coluna titulo="Segmentos" itens={SEGMENTOS.map((s) => ({ nome: s.nome, href: "/#segmentos" }))} />
           <Coluna titulo="Empresa" itens={EMPRESA} />
           <Coluna titulo="Suporte" itens={SUPORTE} />

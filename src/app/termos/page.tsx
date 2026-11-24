@@ -35,7 +35,7 @@ export default function Termos() {
           titulo: "O que é este site",
           corpo: (
             <p>
-              Este é o site institucional da Beara. Ele apresenta nossos serviços de desenvolvimento de software e consultoria e os nossos produtos, e
+              Este é o site institucional da Beara. Ele apresenta os nossos produtos e
               oferece canais para você falar com a gente. O conteúdo é informativo e pode mudar sem aviso.
             </p>
           ),
@@ -88,8 +88,8 @@ export default function Termos() {
           corpo: (
             <p>
               A marca Beara, o símbolo, o mascote, os textos, as imagens e o código do site pertencem à Beara ou são usados com autorização. Não é
-              permitido copiar, modificar ou usar esse material para fins comerciais sem autorização por escrito. As marcas de tecnologias citadas
-              (como React, AWS e Docker) pertencem aos seus donos.
+              permitido copiar, modificar ou usar esse material para fins comerciais sem autorização por escrito. Marcas de terceiros citadas no
+              site pertencem aos seus donos.
             </p>
           ),
         },

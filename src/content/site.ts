@@ -26,17 +26,15 @@ export type Slide = {
 
 export const SLIDES: Slide[] = [
   {
-    label: "Software sob medida",
-    tag: ">_ SOFTWARE HOUSE · CONSULTORIA",
+    label: "Beara",
+    tag: ">_ BEARA · DELIVERY E LOGÍSTICA",
     titulo: "Tecnologia que carrega o peso do seu negócio.",
-    texto:
-      "Sites, apps, APIs e automações construídos para a sua operação — com consultoria do diagnóstico à sustentação.",
-    cta: "Fale com um especialista",
+    texto: "Produtos para quem vende e entrega: o Beara Delivery já está no ar, e o Beara Entregas chega em breve.",
+    cta: "Conhecer os produtos",
+    produto: 0,
     linhas: [
-      { k: "deploy", v: "concluído" },
-      { k: "uptime", v: "monitorado" },
-      { k: "integrações", v: "ativas" },
-      { k: "suporte", v: "contínuo" },
+      { k: "beara delivery", v: "no ar" },
+      { k: "beara entregas", v: "em breve" },
     ],
   },
   {
@@ -100,37 +98,11 @@ export const PRODUTOS: Produto[] = [
 ];
 
 export const SEGMENTOS = [
-  { nome: "Varejo", texto: "E-commerce, PDV integrado e gestão de estoque." },
-  { nome: "Indústria", texto: "Monitoramento e controle de processos em tempo real." },
-  { nome: "Agronegócio", texto: "Automação de rotinas e integração de dados do campo." },
-  { nome: "Serviços", texto: "Portais de cliente, agendamento e faturamento." },
-  { nome: "Saúde", texto: "Apps de atendimento e integração de prontuários." },
+  { nome: "Delivery", texto: "Lojas da cidade num só app, com frete e prazo calculados para cada endereço." },
   { nome: "Logística", texto: "Rastreamento, roteirização e integração com ERP." },
 ].map((s, i) => ({ ...s, num: String(i + 1).padStart(2, "0") }));
 
-// Serviços da software house (vinham como PRODUTOS_OLD no design).
-export const SERVICOS = [
-  { tag: "DESENVOLVIMENTO WEB", titulo: "Plataformas web rápidas, seguras e escaláveis.", itens: ["E-commerce com estoque e pagamentos integrados", "Portais de cliente e parceiro", "Painéis administrativos sob medida"] },
-  { tag: "APPS MOBILE", titulo: "Aplicativos que seus clientes usam de verdade.", itens: ["iOS e Android com React Native", "Notificações, pagamentos e offline", "Publicação e manutenção nas lojas"] },
-  { tag: "APIS E INTEGRAÇÕES", titulo: "Seus sistemas conversando entre si.", itens: ["Integração com ERP e CRM", "APIs REST documentadas", "Conectores com sistemas legados"] },
-  { tag: "AUTOMAÇÃO", titulo: "Automação que reduz custo operacional.", itens: ["Robôs de processo e rotinas agendadas", "Relatórios e dashboards automáticos", "Monitoramento industrial em tempo real"] },
-  { tag: "SUSTENTAÇÃO", titulo: "Seu software cuidado depois da entrega.", itens: ["Infraestrutura AWS e Docker", "Monitoramento e alertas", "Evolução mensal por sprints"] },
-];
-
-export const ETAPAS = [
-  { n: "01", nome: "Diagnóstico", texto: "Entendemos a operação, os gargalos e o que precisa mudar primeiro." },
-  { n: "02", nome: "Projeto", texto: "Escopo, prazos e arquitetura definidos antes da primeira linha de código." },
-  { n: "03", nome: "Construção", texto: "Entregas curtas, com preview para você testar a cada etapa." },
-  { n: "04", nome: "Sustentação", texto: "Hospedagem, monitoramento e evolução contínua depois da entrega." },
-];
-
-export const STACK = ["React", "Node.js", "TypeScript", "Python", "PostgreSQL", "AWS", "Docker", "React Native", "MongoDB", "Firebase"];
-
-export const INTERESSES = ["Beara Delivery", "Beara Entregas", "Projeto sob medida"];
-
-export const UTILITARIOS = {
-  esquerda: ["Para empresas", "Parceiros", "Carreiras", "Conteúdos"],
-};
+export const INTERESSES = ["Beara Delivery", "Beara Entregas"];
 
 // evento usado pelo menu e pelo hero para abrir uma aba de produto
 export const EVENTO_PRODUTO = "beara:produto";

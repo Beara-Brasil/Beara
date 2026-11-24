@@ -21,7 +21,7 @@ export default async function Image() {
             <span style={{ fontSize: 48, fontWeight: 800, letterSpacing: 2 }}>BEARA</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            <span style={{ fontSize: 24, color: "#22D3EE", fontFamily: "monospace" }}>{">_ SOFTWARE HOUSE · CONSULTORIA"}</span>
+            <span style={{ fontSize: 24, color: "#22D3EE", fontFamily: "monospace" }}>{">_ BEARA · DELIVERY E LOGÍSTICA"}</span>
             <span style={{ fontSize: 76, fontWeight: 800, lineHeight: 1, letterSpacing: -2, maxWidth: 900 }}>Tecnologia que carrega o peso do seu negócio.</span>
           </div>
         </div>
