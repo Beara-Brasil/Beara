@@ -57,12 +57,9 @@ export function Produtos() {
         <div className="flex max-w-[640px] flex-col gap-3">
           <span className="font-mono text-[13px] text-navy">PLATAFORMA BEARA</span>
           <h2 className="m-0 font-display text-[clamp(32px,4.5vw,56px)] leading-none font-extrabold tracking-[-.03em]">
-            Uma família de soluções para cada etapa do seu negócio.
+            Os produtos da Beara.
           </h2>
         </div>
-        <a href="#servicos" className="border-b-2 border-cyan pb-1 font-semibold hover:text-navy">
-          Ver todas as soluções ›
-        </a>
       </div>
 
       <div

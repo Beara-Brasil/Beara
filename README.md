@@ -1,6 +1,6 @@
 # Beara — site institucional
 
-Site da Beara (software house e consultoria) com os produtos Beara Delivery
+Site da Beara (tecnologia para delivery e logística) com os produtos Beara Delivery
 e Beara Entregas (em breve). Feito a partir do design `Beara_Site` (Claude Design).
 
 ## Stack
@@ -42,7 +42,7 @@ src/
     hero-bear-3d.tsx    urso Beara em 3D só com CSS transforms
     site-header.tsx     mega-menu (desktop) e gaveta com acordeão (celular)
     produtos.tsx        abas de produto com prévia
-    secoes.tsx          segmentos, sobre, etapas, serviços e faixa de stack
+    secoes.tsx          segmentos (delivery e logística) e sobre
     contato.tsx         formulário que envia por e-mail (/api/contato); mailto de reserva
     cta-movel.tsx       barra fixa de contato no celular
     reveal.tsx          entradas ao rolar
@@ -50,7 +50,7 @@ src/
 
 ## Celular
 
-- Utility bar some; header vira logo + "Fale conosco" + menu hambúrguer.
+- Header vira logo + "Fale conosco" + menu hambúrguer.
 - Gaveta em tela cheia com Soluções/Segmentos em acordeão e atalho para o contato.
 - Hero: deslize para trocar o slide; o urso responde ao toque.
 - Abas de produto com rolagem horizontal.
@@ -59,8 +59,6 @@ src/
 
 ## Pendências
 
-- Parceiros, Carreiras, Conteúdos e Blog ainda não têm página — aparecem como
-  texto, sem link.
 - `/privacidade` e `/termos` são texto-base: revisar com o jurídico e incluir
   razão social e CNPJ.
 - A prévia do Beara Delivery foi montada com o rosto do mascote da `dev` do

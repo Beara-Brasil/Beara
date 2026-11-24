@@ -143,7 +143,7 @@ export function SiteHeader() {
       )}
       {menu === "seg" && (
         <div id="menu-segmentos" className="absolute inset-x-0 top-full hidden border-b border-line bg-white shadow-[0_24px_48px_-24px_rgba(15,20,32,.25)] lg:block">
-          <div className="mx-auto grid max-w-[1320px] grid-cols-6 gap-3 px-[clamp(16px,4vw,40px)] py-8">
+          <div className="mx-auto grid max-w-[1320px] grid-cols-3 gap-3 px-[clamp(16px,4vw,40px)] py-8">
             {SEGMENTOS.map((s, i) => (
               <Link
                 key={s.nome}
